@@ -1,26 +1,31 @@
-/**
-* 
-* M413 - TD3 - Taquin Game
-* * 
-* @author Jean-Michel Bruneau
-*	@copyright UCA - IUT -INFO
-* @version	1.0
-* @date			2021-01-31
-*
-*/
-"use strict";
+'use strict';
 
-// M413 - Taquin
-let message = 'JavaScript is ok :)';
-// alert( message);
-console.log(message);
+const boxList = document.querySelectorAll('.box');
 
-function onLoad() {
-	console.log('Processus de chargement du document terminé…');
-	//
-	// All your JavaScript code goes here !
-	//
- 
-}
-// Toute les ressources de la page sont complètement chargées.
-window.onload = onLoad;
+boxList.forEach(function(box) {
+	box.addEventListener('click', function selection(event) {
+		let clickedBox = event.target;
+		let emptyBox = document.querySelector('.empty');
+
+		if (clickedBox !== box) {
+			clickedBox = clickedBox.parentNode;
+		}
+
+		if (clickedBox === emptyBox) {
+			return;
+		}
+
+		const clickedBoxRow = clickedBox.id.charAt(1);
+		const clickedBoxColumn = clickedBox.id.charAt(4);
+		const emptyBoxRow = emptyBox.id.charAt(1);
+		const emptyBoxColumn = emptyBox.id.charAt(4);
+
+		if (Math.abs(parseInt(emptyBoxColumn - clickedBoxColumn) + parseInt(emptyBoxRow - clickedBoxRow)) === 1 ) {
+			clickedBox.classList.add('empty');
+			emptyBox.classList.remove('empty');
+			emptyBox.innerHTML = clickedBox.innerHTML;
+			clickedBox.textContent = '';
+		}
+	})
+})
+
